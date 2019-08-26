@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"github.com/tidwall/gjson"
-	"encoding/json"
 )
 
 func (*NetsPlatform) Search(keyword string) {
@@ -48,18 +47,19 @@ func (*NetsPlatform) Search(keyword string) {
 			artist = append(artist,ar.String())
 		}
 		songsArr = append(songsArr,Song{
-			Id: gjson.Get(v.String(),"id").Index,
+			Id: gjson.Get(v.String(),"id").String(),
 			Name: gjson.Get(v.String(),"name").String(),
 			Artist: artist,
 			Album: gjson.Get(v.String(),"al.name").String(),
 			PicId: gjson.Get(v.String(),"al.pic_str").String(),
-			UrlId:gjson.Get(v.String(),"id").Index,
-			LyricId:gjson.Get(v.String(),"id").Index,
+			UrlId:gjson.Get(v.String(),"id").String(),
+			LyricId:gjson.Get(v.String(),"id").String(),
 			Source:"nets",
 		})
 	}
-	j,_ := json.Marshal(songsArr)
-	fmt.Println(string(j))
+
+	RenderTable(songsArr)
+	return
 }
 func (*NetsPlatform)searchFormat(resp string)  {
 }

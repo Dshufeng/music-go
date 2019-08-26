@@ -8,6 +8,8 @@ import (
 	"net"
 	"math/rand"
 	"time"
+	"github.com/olekukonko/tablewriter"
+	"os"
 )
 
 func httpSend(p *Platform)  string{
@@ -62,4 +64,35 @@ func GenerateRangeNum(min,max int) int{
 	rand.Seed(time.Now().Unix())
 	num := rand.Intn(max-min) + min
 	return num
+}
+
+func RenderTable(songsArr []Song)  {
+	var data [][]string
+	for _,s := range songsArr{
+		arts := strings.Join(s.Artist,",")
+		data = append(data,[]string{
+			s.Id,
+			s.Name,
+			arts,
+			s.Album,
+		})
+	}
+
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"ID", "名称", "歌手","专辑"})
+
+	table.SetHeaderColor(
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiRedColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgWhiteColor})
+
+	table.SetColumnColor(
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiRedColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgWhiteColor})
+
+	table.AppendBulk(data)
+	table.Render()
 }

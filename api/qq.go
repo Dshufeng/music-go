@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"github.com/tidwall/gjson"
-	"encoding/json"
 )
 
 func (*QqPlatform) Search(keyword string) {
@@ -48,16 +47,16 @@ func (*QqPlatform) Search(keyword string) {
 			artist = append(artist,ar.String())
 		}
 		songsArr = append(songsArr,Song{
-			Id: gjson.Get(v.String(),"mid").Index,
+			Id: gjson.Get(v.String(),"mid").String(),
 			Name: gjson.Get(v.String(),"name").String(),
 			Artist: artist,
 			Album: gjson.Get(v.String(),"album.name").String(),
 			PicId: gjson.Get(v.String(),"album.album.mid").String(),
-			UrlId:gjson.Get(v.String(),"mid").Index,
-			LyricId:gjson.Get(v.String(),"mid").Index,
+			UrlId:gjson.Get(v.String(),"mid").String(),
+			LyricId:gjson.Get(v.String(),"mid").String(),
 			Source:"qq",
 		})
 	}
-	j,_ := json.Marshal(songsArr)
-	fmt.Println(string(j))
+	RenderTable(songsArr)
+	return
 }

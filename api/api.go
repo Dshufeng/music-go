@@ -12,13 +12,13 @@ type Platform struct {
 	Headers headers
 }
 type Song struct {
-	Id int `json:"id"`
+	Id string `json:"id"`
 	Name string `json:"name"`
 	Artist []string `json:"artist"`
 	Album string `json:"album"`
 	PicId string `json:"pic_id"`
-	UrlId int `json:"url_id"`
-	LyricId int `json:"lyric_id"`
+	UrlId string `json:"url_id"`
+	LyricId string `json:"lyric_id"`
 	Source string `json:"source"`
 }
 

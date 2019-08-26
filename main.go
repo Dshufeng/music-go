@@ -4,6 +4,8 @@ import (
 	"music/api"
 	"fmt"
 	_"encoding/json"
+	_"github.com/olekukonko/tablewriter"
+	_"os"
 )
 var (
 	selectPlatform string
@@ -12,22 +14,22 @@ var (
 )
 
 func main()  {
-	fmt.Printf("select platform (%v default nets):\n",platforms)
+
+
+	fmt.Printf("请选择平台:%v (default nets):\n",platforms)
 	fmt.Scanln(&selectPlatform)
 	if selectPlatform == "" {
 		selectPlatform = "nets"
 	}
-	fmt.Println("you select platform: ",selectPlatform)
 
 	for  {
-		fmt.Println("input keyword: ")
+		fmt.Println("请输入关键字: ")
 		fmt.Scanln(&searchKeyword)
 		if searchKeyword != ""{
 			break
 		}
 	}
-	fmt.Println("you keyword: ",searchKeyword)
-
+	fmt.Printf("正在搜索: %v, 请耐心等待...\n",searchKeyword)
 	search(selectPlatform,searchKeyword)
 }
 
