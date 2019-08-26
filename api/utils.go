@@ -7,16 +7,16 @@ import (
 	"strings"
 )
 
-func httpSend(p *Platform)  {
+func httpSend(p *Platform)  string{
 	urlParam := buildUrl(p.Body)
 	var err error
 	var resp *http.Response
 	if p.Method == "POST"{
 		resp,err = http.Post(p.Url,"application/x-www-form-urlencoded",strings.NewReader(urlParam))
-		defer resp.Body.Close()
 	}else {
 		resp,err = http.Get(p.Url + "?" + urlParam)
 	}
+	defer resp.Body.Close()
 
 	if err != nil{
 		fmt.Println("http err: ",err)
@@ -25,7 +25,7 @@ func httpSend(p *Platform)  {
 	if err != nil{
 		fmt.Println("read err: ",err)
 	}
-	fmt.Println(string(body))
+	return string(body)
 }
 
 func buildUrl(requestBody body)  string{

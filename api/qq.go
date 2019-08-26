@@ -1,5 +1,7 @@
 package api
 
+import "fmt"
+
 func (*QqPlatform) Search(keyword string) {
 	platform := Platform{
 		Name:"qq",
@@ -18,5 +20,10 @@ func (*QqPlatform) Search(keyword string) {
 		Encode:"",
 		Format:"",
 	}
-	httpSend(&platform)
+	songs := httpSend(&platform)
+	fmt.Println(songs)
+}
+
+func searchFormat()  {
+
 }
