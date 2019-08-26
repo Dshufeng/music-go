@@ -5,17 +5,25 @@ import (
 	"io/ioutil"
 	"fmt"
 	"strings"
+	"net"
+	"math/rand"
+	"time"
 )
 
 func httpSend(p *Platform)  string{
 	urlParam := buildUrl(p.Body)
-	var err error
-	var resp *http.Response
+	var req *http.Request
+
 	if p.Method == "POST"{
-		resp,err = http.Post(p.Url,"application/x-www-form-urlencoded",strings.NewReader(urlParam))
+		req, _ = http.NewRequest(p.Method,p.Url,strings.NewReader(urlParam))
 	}else {
-		resp,err = http.Get(p.Url + "?" + urlParam)
+		req, _ = http.NewRequest(p.Method, p.Url + "?" + urlParam, nil)
 	}
+	// headers
+	for k,v := range p.Headers{
+		req.Header.Set(k,v)
+	}
+	resp, err := (&http.Client{}).Do(req)
 	defer resp.Body.Close()
 
 	if err != nil{
@@ -40,4 +48,18 @@ func buildUrl(requestBody body)  string{
 		i++
 	}
 	return str
+}
+
+func Long2ip(ip int) net.IP {
+	a := byte((ip >> 24) & 0xFF)
+	b := byte((ip >> 16) & 0xFF)
+	c := byte((ip >> 8) & 0xFF)
+	d := byte(ip & 0xFF)
+	return net.IPv4(a, b, c, d)
+}
+
+func GenerateRangeNum(min,max int) int{
+	rand.Seed(time.Now().Unix())
+	num := rand.Intn(max-min) + min
+	return num
 }

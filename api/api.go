@@ -1,7 +1,7 @@
 package api
 
 type body map[string]interface{}
-
+type headers map[string]string
 type Platform struct {
 	Name string
 	Method string
@@ -9,6 +9,17 @@ type Platform struct {
 	Body body
 	Encode string
 	Format string
+	Headers headers
+}
+type Song struct {
+	Id int `json:"id"`
+	Name string `json:"name"`
+	Artist []string `json:"artist"`
+	Album string `json:"album"`
+	PicId string `json:"pic_id"`
+	UrlId int `json:"url_id"`
+	LyricId int `json:"lyric_id"`
+	Source string `json:"source"`
 }
 
 type platformApi interface {
